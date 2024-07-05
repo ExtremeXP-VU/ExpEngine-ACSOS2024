@@ -40,3 +40,5 @@ logs/
 node_modules/
 bower_components/
 generated/
+*.jar
+*/.launch/*
