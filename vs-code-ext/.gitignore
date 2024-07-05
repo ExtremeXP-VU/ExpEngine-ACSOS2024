@@ -1,0 +1,76 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variables file
+.env
+.env.test
+
+# Mac system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Visual Studio Code settings
+.vscode/
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# IDE directories
+.idea/
+*.iml
+
+# Build directories
+dist/
+build/
+
+# Bower dependency directory
+bower_components/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Next.js build output
+.next/
+
+# Nuxt.js build / generated files
+.nuxt/
+dist/
+
+# Gatsby files
+.cache/
+public/
+
+# Gridsome cache
+.cache/
+
+# SvelteKit build / generated files
+.svelte-kit/
+
+# Capacitor config
+capacitor.config.ts
+
+# Dependency directories for projects usin

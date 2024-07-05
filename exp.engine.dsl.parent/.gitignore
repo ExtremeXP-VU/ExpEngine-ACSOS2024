@@ -1,0 +1,41 @@
+# Eclipse specific files
+.project
+.buildpath
+.settings/
+
+# Xtext generated files
+src-gen/
+xtend-gen/
+
+# Gradle specific files
+.gradle/
+build/
+bin/
+
+# Maven specific files
+target/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Log files
+logs/
+*.log
+
+# IDE directories
+.idea/
+*.iml
+
+# Environment files
+.env
+
+# Package directories
+node_modules/
+bower_components/
