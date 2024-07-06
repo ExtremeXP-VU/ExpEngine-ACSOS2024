@@ -32,7 +32,7 @@ experiment IDEKOExperiment {
     }
     event E1 {
         type automated;
-        task check_accuracy_over_workflows_of_last_space;
+        task check(average, "accuracy", ">80", S1);
     }
     event E2 {
         type manual;
@@ -51,8 +51,6 @@ experiment IDEKOExperiment {
     space S3 of AW2 {...}
     space S4 of AW1 {
         strategy randomsearch;
-        param epochs_vp = range(110,120,2);
-        param batch_size_vp = range(20, 50);
-        configure task TrainModel {...}
+        ...
     }
 }
