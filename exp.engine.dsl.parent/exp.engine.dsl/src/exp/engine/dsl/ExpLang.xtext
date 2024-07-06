@@ -1,0 +1,370 @@
+grammar exp.engine.dsl.ExpLang with org.eclipse.xtext.common.Terminals
+
+generate expLang "http://www.engine.exp/dsl/ExpLang"
+
+Model:
+	components += Component*
+;
+
+// This is to ensure we have three main components
+Component:  
+	Workflow | AssembledWorkflow | Experiment
+;
+
+
+
+// within a workflow, we define tasks, define data, setup connections, 
+Workflow:
+    'workflow' name=ID '{'
+    	(
+        	tasks += Task |
+        	taskConfigurations += TaskConfiguration |
+        	taskConnections += TaskConnection |
+        	
+        	data += Data |
+        	dataConfigurations += DataConfiguration |
+        	dataConnections += DataConnection |
+        	
+        	params += Param
+        	
+        )*
+    '}'
+;
+
+// TASK
+// Define
+
+Task: 
+	'define' 'task' name=ID ';'	
+;
+
+// Configuration
+TaskConfiguration:
+    'configure' 'task' alias=[Task] '{'
+        (params+=[Param])* &
+        ('implementation' (workflow=[Workflow] | filename=STRING) ';')?
+        ('dependency' dependency=STRING';')?
+    '}'
+ ;
+
+// Connection
+TaskConnection:
+	(started?='START')? '->' rest+=[Task] ('->' rest+=[Task])* ('->' ended?='END')? ';'
+;
+
+DataOrTask:
+	{Data}|{Task}
+;
+
+
+// Data
+// Define
+
+Data: 
+	'define' 'data' name=ID ';'	
+;
+
+// Configuration
+DataConfiguration:
+    'configure' 'data' alias=[Data] '{'
+        'path' path=STRING';'
+    '}'
+   ;
+
+// Connection
+DataConnection:
+	(origin = [DataOrTask|ID]) '-->' (target = [DataOrTask|ID]) ';'
+;
+
+
+// Param
+Param:
+	'param' name=ID (assigned?='=' (otherParam=[Param] | value=Value))? ';'  
+;
+
+// Value
+Value:
+	int=INT | str=STRING | bool=BOOL | float=FLOAT 
+;
+
+terminal BOOL:
+	'True'|'False'
+;
+
+terminal FLOAT:
+	INT+'.'INT+
+;
+
+
+// AssembledWorkflow
+AssembledWorkflow:
+	'workflow' name=ID 'from' parent_workflow=[Workflow] '{'
+        (tasks+=TaskConfiguration)*
+    '}'
+;
+
+
+// Experiment:
+Experiment:
+    'experiment' name=ID '{'
+        'intent' intent=ID ';' 
+        control=Control
+       	events += Event* 
+       	spaces += Space*
+'}';
+
+Control:
+	{Control}'control' '{'
+		flows += Flow*
+	'}'
+;
+
+Flow:
+	StartingFlow | OrdinaryFlow | ConditionalFlow 
+;
+
+StartingFlow:
+	'START' '->' firstSpace=[Space] ';' 
+;
+
+OrdinaryFlow:
+	origin=[EventOrSpace|ID] '->' rest+=[EventOrSpace|ID] ('-->' rest+=[EventOrSpace|ID])? ';'
+;
+
+ConditionalFlow:
+	origin=[EventOrSpace|ID] '?->' target=[EventOrSpace|ID] '{'
+		'condition' value=BOOL
+	'}'
+;
+
+
+EventType: 'automated' | 'manual';
+
+Event:
+    'event' name=ID '{'
+        'type' eventType=EventType ';' &
+        ('condition' condition=STRING ';')? &
+        'task' validation_task=ID ';'
+        ('restart' restart=BOOL ';')?
+    '}';
+
+
+Space:
+    'space' name=ID 'of' assembled_workflow=[AssembledWorkflow] '{'
+        'strategy' strategy_name=Strategy ';'
+        (vparams+=VParam)*
+        (tasks+=ESpaceTaskConfiguration)*
+    '}'
+;
+
+Strategy: 'gridsearch' |  'randomsearch';
+
+VParam:
+    'param' name=ID '=' value=VP_value ';'
+;
+
+VP_value: ENUM | RANGE;
+
+ENUM:
+    ('enum' '(' int_values+=INT+ (',' int_values+=INT)* ')') |
+    ('enum' '(' str_values+=STRING+ (',' str_values+=STRING)* ')')
+;
+
+RANGE:
+    'range(' minimum=INT ',' maximum=INT (',' step=INT)? ')'
+;
+
+
+ESpaceTaskConfiguration:
+    {ESpaceTaskConfiguration} 'configure' 'task' task=[Task] '{'
+         (configs+=ParameterConfiguration)*
+    '}';
+
+
+ParameterConfiguration: 'param' name=ID '=' vp=[VParam|ID] ';';
+
+
+EventOrSpace:
+	{Event}|{Space}
+;
+
+//
+//// Note: StartAndEndEvent has to be come BEFORE StartEvent in the next line
+//Element: 
+//	Node | DefineData | ConfigureTask | ConfigureData |  StartAndEndEvent | StartEvent | EndEvent | TaskLink | ConditionLink | DataLink | GroupTask 
+//;
+//
+//Node:
+//    DefineTask | Operator
+//;
+//
+//StartAndEndEvent:
+//    'START'
+//    '->'
+//    (nodes+=[Node] '->')+
+//    'END'
+//    ';'
+//;
+//
+//StartEvent:
+//    'START'
+//    ('->' nodes+=[Node])+
+//    ';'
+//;
+//
+//EndEvent:
+//    (nodes+=[Node] '->')+
+//    'END'
+//    ';'
+//;
+//
+//TaskLink:
+//    initial_node=[Node]
+//    ('->' nodes+=[Node])+
+//    ';'
+//;
+//
+//ConfigureTask:
+//    'configure' 'task' alias=[DefineTask] '{'
+//        ('param' parameters+=ID ('=' values+=Value)* ';')*
+//        ('implementation' workflow=[Workflow]';' | 'implementation' filename=STRING';')?
+//        ('dependency' dependency=STRING';')?
+//        (subtasks+=ConfigureTask)*
+//    '}'
+// ;
+//
+//DefineTask: 
+//	'define' 'task' name=ID ';'
+//;
+//
+//ConfigureData:
+//    'configure' 'data' alias=[DefineData] '{'
+//        'path' path=STRING';'
+//    '}'
+//   ;
+//
+//Operator: 
+//	'define' 'operator' name=ID ';'
+//;
+//
+//DefineData: 
+//	'define' 'data' name=ID ';' 
+//;
+//
+//Value: STRING | INT | FLOAT | BOOL | "null";
+//
+//
+//DataLink:
+//    (initial=[Node] ('-->' rest+=[DefineData])* ';') |
+//    (initial=[DefineData] ('-->' rest+=[Node])* ';')
+//;
+//
+//
+//ConditionLink: 
+//	from_node=[Node] '->' condition=STRING '?' if_node=[Node]  ':' else_node=[Node] '->' continuation_Node=[Node] ';'
+//;
+//
+//GroupTask:  
+//	'group' name=ID '{' 
+//		node+=[Node]* 
+//	'};' 
+//;
+//
+//AssembledWorkflow:
+//    'workflow' name=ID 'from' parent_workflow=[Workflow] '{'
+//        (tasks+=ConfigureTask)*
+//    '}';
+//
+//
+//
+//Experiment:
+//    'experiment' name=ID '{'
+//        (intent+='intent' intent_name+=ID ';')*
+//        controls+=Control*
+//        experimentNodes+=ExperimentNode*
+//    '}';
+//
+//ExperimentNode: SpaceConfig | Event;
+//
+//Event:
+//        'event' name=ID '{'
+//            'type' eventType=EventType ';'
+//            ('condition' conditions+=STRING ';')*
+//            'task' validation_task=ID ';'
+//            ('restart' restarts+=BOOL ';')*
+//        '}';
+//
+//EventType: 'automated' | 'manual';
+//
+//SpaceConfig:
+//    'space' name=ID 'of' assembled_workflow=[AssembledWorkflow] '{'
+//        'strategy' strategy_name=Strategy ';'
+//        (vps+=VP)*
+//        (tasks+=ESpaceTaskConfiguration)*
+//    '}';
+//
+//Strategy: 'gridsearch' |  'randomsearch';
+//
+//
+//VP:
+//    'param' vp_name=ID '=' vp_values=VP_value
+//;
+//
+//VP_value: ENUM | RANGE;
+//
+//ENUM:
+//    ('enum' '(' int_values+=INT+ (',' int_values+=INT)* ')' ';') |
+//    ('enum' '(' str_values+=STRING+ (',' str_values+=STRING)* ')' ';')
+//;
+//
+//RANGE:
+//    'range(' minimum=INT ',' maximum=INT ')' ';' |
+//    'range(' minimum=INT ',' maximum=INT',' step=INT ');'
+//
+//;
+//
+//
+//ESpaceTaskConfiguration:
+//    {ESpaceTaskConfiguration} 'configure' 'task' task=[DefineTask] '{'
+//         (configs+=ParameterConfiguration)*
+//    '}';
+//
+//
+//ParameterConfiguration: 'param' param_name=ID '=' vp=ID ';';
+//
+//Control:
+//        {Control}'control' '{'
+//               explink+=ExpLink*
+//        '}';
+//
+//ExpLink:  RegularExpLink | ConditionalExpLink;
+//
+//RegularExpLink:
+//    initial_space='START' '->' start=[ExperimentNode] ';' |'START' '->' start=[ExperimentNode]  '->' 'END' ';' |
+//
+//    initial_space+=[ExperimentNode]
+//    '->'
+//    (spaces+=[ExperimentNode])+
+//    ';' |
+//
+//    initial_space+=[ExperimentNode]
+//    '->'
+//    (spaces+=[ExperimentNode] '->')+
+//    'END'
+//    ';'
+//;
+//
+//
+//ConditionalExpLink:
+//    fromspace=[ExperimentNode] '?->' tospace=[ExperimentNode] '{' 'condition' condition=STRING '}' ';'
+//;
+//
+//
+//terminal BOOL:
+//	'True'|'False'
+//;
+//
+//
+//terminal FLOAT:
+//	INT+'.'INT+
+//;

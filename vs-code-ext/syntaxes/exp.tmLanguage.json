@@ -1,0 +1,81 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "exp",
+	"patterns": [
+		{
+			"include": "#entities"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#sl-comments"
+		},
+		{
+			"include": "#ml-comments"
+		},
+		{
+			"include": "#constants"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.exp",
+				"match": "\\b(implementation|define|configure|from|condition|type|of|restart)\\b"
+			},
+			{
+				"name": "keyword.operator.exp",
+				"match": "\\b(--\\>|-\\>|\\?-\\>)\\b"
+			}]
+		},
+		"entities": {
+			"patterns": [{
+				"name": "entity.name.function.exp",
+				"match": "\\b(workflow|task|experiment)\\b"
+			},
+			{
+				"name": "entity.name.type.exp",
+				"match": "\\b(data|param|metric|space|event|control|intent)\\b"
+			}
+		]
+		},		
+		"sl-comments": {
+			"name": "comment.line.double-slash.exp",
+			"begin": "//",
+			"end":"\n"
+		},
+		"ml-comments": {
+			"name": "comment.block.exp",
+			"begin": "/\\*",
+			"end": "\\*/"
+		},
+		"constants": {
+			"patterns": [
+				{
+					"name":  "constant.numeric.exp",
+					"match": "\\b(-)?[0-9]+\\b"
+				},
+				{
+					"name":  "constant.language.exp",
+					"match": "\\b(START|END|enum|range|grdisearch|randomsearch|True|False)\\b"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.exp",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.exp",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.exp"
+}

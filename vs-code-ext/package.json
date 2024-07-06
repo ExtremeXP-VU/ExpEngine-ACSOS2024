@@ -1,0 +1,52 @@
+{
+  "name": "exp-language",
+  "displayName": "exp-language",
+  "description": "Experiment Language",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:xxp"
+  ],
+  "main": "src/out/extension",
+  "contributes": {
+    "languages": [
+      {
+        "id": "explang",
+        "aliases": [
+          "exp lang",
+          "explang"
+        ],
+        "extensions": [
+          ".exp"
+        ],
+        "configuration": "./exp.configuration.json"
+      }
+    ],
+    "grammars": [{
+      "language": "explang",
+      "scopeName": "source.exp",
+      "path": "./syntaxes/exp.tmLanguage.json"
+    }]
+  },
+  "scripts": {
+    "prepublish": "tsc -p ./src",
+    "compile": "tsc -p ./src",
+    "watch": "tsc -w -p ./src",
+    "update-vscode": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.87.0",
+    "typescript": "^5.4.3",
+    "vscode-test": "^1.6.1"
+  },
+  "dependencies": {
+    "build": "^0.1.4",
+    "vscode-languageclient": "^9.0.1"
+  }
+}
