@@ -13,7 +13,6 @@ workflow IDEKO {
 
   configure task AddPadding {...}
   configure task SplitData {...}
-  configure task TrainModel {...}
 
 workflow AW1 from IDEKO {
   configure task TrainModel {
@@ -42,14 +41,12 @@ experiment EXP {
 
     event E1 {
         type automated;
-        condition "the average accuracy of the lastly trained ML models is > 50%";
         task check_accuracy_over_workflows_of_last_space;
     }
 
     event E2 {
         type manual;
         task change_and_restart;
-        restart True;
     }
 
     space S1 of AW1 {
@@ -63,7 +60,6 @@ experiment EXP {
     }
 
     space S2 of AW1 {...}
-
     space S3 of AW2 {...}
 
     space S4 of AW1 {
