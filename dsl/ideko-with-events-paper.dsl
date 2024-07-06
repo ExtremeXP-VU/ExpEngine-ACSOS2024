@@ -1,76 +1,51 @@
-workflow IDEKO {
-  define task ReadData;
-  define task AddPadding;
-  define task SplitData;
-  define task TrainModel;
-
+workflow ExampleWF {
+  define task ReadData, AddPadding, SplitData, TrainModel;
   START -> ReadData -> AddPadding -> SplitData -> TrainModel -> END;
-
   configure task ReadData {
     implementation "tasks/IDEKO/read_data.py";
     dependency "tasks/IDEKO/src/**";
   }
-
   configure task AddPadding {...}
   configure task SplitData {...}
-  configure task TrainModel {...}
+}
 
-workflow AW1 from IDEKO {
+workflow FDW1 from ExampleWF {
   configure task TrainModel {
       implementation "tasks/IDEKO/train_nn.py";
   }
 }
 
-workflow AW2 from IDEKO {
+workflow FDW2 from ExampleWF {
   configure task TrainModel {
       implementation "tasks/IDEKO/train_rnn.py";
   }
 }
 
-experiment EXP {
+experiment ExampleExperiment {
     control {
-        //Automated
         S1 -> E1;
         E1 ?-> S2 { condition "True"};
         E1 ?-> S3 { condition "False"};
-
-        //Manual
-        S2 -> E2;
-        S3 -> E2;
-        E2 -> S4;
+        S3 -> E2 -> S4;
     }
-
     event E1 {
         type automated;
-        condition "the average accuracy of the lastly trained ML models is > 50%";
-        task check_accuracy_over_workflows_of_last_space;
+        task check(average, "accuracy", ">80", S1);
     }
-
     event E2 {
         type manual;
-        task change_and_restart;
-        restart True;
+        task review_and modify(average, "accuracy", S3, S4)
     }
-
-    space S1 of AW1 {
+    space S1 of FDW2 {
         strategy gridsearch;
-        param epochs_vp = range(50,100,10);
+        param epochs_vp = range(60,120,20);
         param batch_size_vp = enum(64, 128);
         configure task TrainModel {
              param epochs = epochs_vp;
              param batch_size = batch_size_vp;
         }
     }
-
-    space S2 of AW1 {...}
-
-    space S3 of AW2 {...}
-
-    space S4 of AW1 {
-        strategy randomsearch;
-        param epochs_vp = range(110,120,2);
-        param batch_size_vp = range(20, 50);
-        runs = 5;
-        configure task TrainModel {...}
-    }
+    space S2 of FDW1 {...}
+    space S3 of FDW2 {...}
+    space S4 of FDW2 {...}
 }
