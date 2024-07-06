@@ -1,0 +1,131 @@
+workflow IDEKO {
+
+  define task ReadData;
+  define task AddPadding;
+  define task SplitData;
+  define task TrainModel;
+
+  START -> ReadData -> AddPadding -> SplitData -> TrainModel -> END;
+
+  configure task ReadData {
+    implementation "tasks/IDEKO/read_data.py";
+    dependency "tasks/IDEKO/src/**";
+  }
+
+  configure task AddPadding {
+      implementation "tasks/IDEKO/add_padding.py";
+      dependency "tasks/IDEKO/src/**";
+    }
+
+  configure task SplitData {
+      implementation "tasks/IDEKO/split_data.py";
+      dependency "tasks/IDEKO/src/**";
+  }
+
+  configure task TrainModel {
+      dependency "tasks/IDEKO/src/**";
+  }
+
+workflow AW1 from IDEKO {
+  configure task TrainModel {
+      implementation "tasks/IDEKO/train_nn.py";
+  }
+}
+
+workflow AW2 from IDEKO {
+  configure task TrainModel {
+      implementation "tasks/IDEKO/train_rnn.py";
+  }
+}
+
+experiment EXP {
+
+    intent FindBestClassifier;
+
+    control {
+        //Automated
+        S1 -> E1;
+        E1 ?-> S2 { condition "True"};
+        E1 ?-> S3 { condition "False"};
+
+        S2 -> S4;
+        S3 -> S4;
+
+        //Manual
+        // Note E2 is allowed to change any scheduled workflows after it
+        S4 -> E2;
+        E2 -> S5;
+    }
+
+
+    event E1 {
+        type automated;
+        task check(average, "accuracy", ">80", S1);
+    }
+
+    event E2 {
+        type manual;
+        task review_and modify(average, "accuracy", [S1, S2, S3], S4)
+    }
+
+    space S1 of AW1 {
+        strategy gridsearch;
+        param epochs_vp = range(80,90,10);
+        param batch_size_vp = enum(64);
+
+        configure task TrainModel {
+             param epochs = epochs_vp;
+             param batch_size = batch_size_vp;
+        }
+    }
+
+    space S2 of AW1 {
+        strategy gridsearch;
+        param epochs_vp = range(80,90,20);
+        param batch_size_vp = enum(64, 128);
+
+        configure task TrainModel {
+             param epochs = epochs_vp;
+             param batch_size = batch_size_vp;
+        }
+    }
+
+    space S3 of AW2 {
+        strategy gridsearch;
+        param epochs_vp = enum(80, 81);
+        param batch_size_vp = enum(64, 128);
+
+        configure task TrainModel {
+             param epochs = epochs_vp;
+             param batch_size = batch_size_vp;
+        }
+    }
+
+
+    space S4 of AW1 {
+        strategy randomsearch;
+        param epochs_vp = range(100,105,2);
+        param batch_size_vp = range(60, 70);
+        runs = 5;
+
+        configure task TrainModel {
+             param epochs = epochs_vp;
+             param batch_size = batch_size_vp;
+        }
+    }
+
+     space S5 of AW1 {
+        strategy gridsearch;
+        param epochs_vp = range(100,105,5);
+        param batch_size_vp = enum(64);
+
+        configure task TrainModel {
+             param epochs = epochs_vp;
+             param batch_size = batch_size_vp;
+        }
+    }
+
+}
+
+
+
