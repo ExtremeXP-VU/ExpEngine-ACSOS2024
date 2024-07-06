@@ -1,4 +1,4 @@
-workflow IDEKO {
+workflow ExampleWF {
   define task ReadData, AddPadding, SplitData, TrainModel;
   START -> ReadData -> AddPadding -> SplitData -> TrainModel -> END;
   configure task ReadData {
@@ -9,19 +9,19 @@ workflow IDEKO {
   configure task SplitData {...}
 }
 
-workflow AW1 from IDEKO {
+workflow FDW1 from ExampleWF {
   configure task TrainModel {
       implementation "tasks/IDEKO/train_nn.py";
   }
 }
 
-workflow AW2 from IDEKO {
+workflow FDW2 from ExampleWF {
   configure task TrainModel {
       implementation "tasks/IDEKO/train_rnn.py";
   }
 }
 
-experiment IDEKOExperiment {
+experiment ExampleExperiment {
     control {
         S1 -> E1;
         E1 ?-> S2 { condition "True"};
@@ -36,7 +36,7 @@ experiment IDEKOExperiment {
         type manual;
         task review_and modify(average, "accuracy", S3, S4)
     }
-    space S1 of AW1 {
+    space S1 of FDW2 {
         strategy gridsearch;
         param epochs_vp = range(60,120,20);
         param batch_size_vp = enum(64, 128);
@@ -45,7 +45,7 @@ experiment IDEKOExperiment {
              param batch_size = batch_size_vp;
         }
     }
-    space S2 of AW1 {...}
-    space S3 of AW2 {...}
-    space S4 of AW2 {...}
+    space S2 of FDW1 {...}
+    space S3 of FDW2 {...}
+    space S4 of FDW2 {...}
 }
