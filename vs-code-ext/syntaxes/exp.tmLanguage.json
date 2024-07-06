@@ -25,7 +25,7 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.exp",
-				"match": "\\b(implementation|define|configure|from|condition|type|of|restart)\\b"
+				"match": "\\b(implementation|define|configure|from|condition|type|of|restart|strategy)\\b"
 			},
 			{
 				"name": "keyword.operator.exp",
@@ -61,7 +61,7 @@
 				},
 				{
 					"name":  "constant.language.exp",
-					"match": "\\b(START|END|enum|range|grdisearch|randomsearch|True|False)\\b"
+					"match": "\\b(START|END|enum|range|gridsearch|randomsearch|True|False)\\b"
 				}
 			]
 		},
