@@ -124,17 +124,17 @@ Flow:
 ;
 
 StartingFlow:
-	'START' '->' firstSpace=[Space] ';' 
+	'START' '->' firstSpace=ID ';' 
 ;
 
 OrdinaryFlow:
-	origin=[EventOrSpace|ID] '->' rest+=[EventOrSpace|ID] ('-->' rest+=[EventOrSpace|ID])? ';'
+	origin=ID '->' rest+=ID ('-->' rest+=ID)? ';'
 ;
 
 ConditionalFlow:
-	origin=[EventOrSpace|ID] '?->' target=[EventOrSpace|ID] '{'
-		'condition' value=BOOL
-	'}'
+	origin=ID '?->' target=ID '{'
+		'condition' value=(BOOL|STRING) 
+	'}' ';'
 ;
 
 
@@ -144,17 +144,35 @@ Event:
     'event' name=ID '{'
         'type' eventType=EventType ';' &
         ('condition' condition=STRING ';')? &
-        'task' validation_task=ID ';'
+        'task' validation_task=Function ';'
         ('restart' restart=BOOL ';')?
     '}';
 
+Function:
+	function_name=ID '(' 
+	functionality = ID (',' attributes+=Attribute )* ')'
+;
+
+Attribute: 
+	string=STRING | list=ID_LIST | single=ID  
+;
+
+ID_LIST:
+	'[' rest+=ID (',' rest+=ID)* ']'
+;
 
 Space:
     'space' name=ID 'of' assembled_workflow=[AssembledWorkflow] '{'
         'strategy' strategy_name=Strategy ';'
         (vparams+=VParam)*
+        (properties+=Properties)*
         (tasks+=ESpaceTaskConfiguration)*
+        
     '}'
+;
+
+Properties:
+	name=ID '=' (INT|STRING) ';'
 ;
 
 Strategy: 'gridsearch' |  'randomsearch';

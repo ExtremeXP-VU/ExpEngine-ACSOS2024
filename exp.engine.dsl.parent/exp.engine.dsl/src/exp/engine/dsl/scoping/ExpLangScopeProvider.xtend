@@ -12,6 +12,10 @@ import exp.engine.dsl.expLang.ExpLangPackage
 import org.eclipse.xtext.scoping.Scopes
 import exp.engine.dsl.expLang.ESpaceTaskConfiguration
 import exp.engine.dsl.expLang.Space
+import exp.engine.dsl.expLang.OrdinaryFlow
+import exp.engine.dsl.expLang.Experiment
+import exp.engine.dsl.expLang.EventOrSpace
+import java.util.ArrayList
 
 /**
  * This class contains custom scoping description.
@@ -20,7 +24,8 @@ import exp.engine.dsl.expLang.Space
  * on how and when to use it.
  */
 class ExpLangScopeProvider extends AbstractExpLangScopeProvider {
-	  
+
+    
 	 override IScope getScope(EObject context, EReference reference){
 	 	
 	 	if (context instanceof TaskConfiguration){
@@ -42,6 +47,19 @@ class ExpLangScopeProvider extends AbstractExpLangScopeProvider {
 	 					tasks += e.alias
 	 				]
 	 				return Scopes.scopeFor(tasks)
+	 			}
+	 		}
+	 	}
+	 	
+	 	if (context instanceof OrdinaryFlow){
+	 		if (reference == ExpLangPackage.Literals.ORDINARY_FLOW__ORIGIN){
+	 			val eventOrSpaces = new ArrayList<EventOrSpace>()
+	 			var experiment = context.eContainer.eContainer
+	 			if (experiment instanceof Experiment){
+					println (experiment.spaces)
+	 				eventOrSpaces += experiment.spaces
+	 				eventOrSpaces += experiment.events
+	 				return Scopes.scopeFor(eventOrSpaces)
 	 			}
 	 		}
 	 	}
