@@ -36,7 +36,7 @@ experiment IDEKOExperiment {
     }
     event E2 {
         type manual;
-        task change_and_restart;
+        task review(average, "accuracy", [S1, S2, S3])
     }
     space S1 of AW1 {
         strategy gridsearch;
