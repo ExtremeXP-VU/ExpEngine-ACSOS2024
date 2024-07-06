@@ -25,6 +25,7 @@ workflow IDEKO {
   configure task TrainModel {
       dependency "tasks/IDEKO/src/**";
   }
+}
 
 workflow AW1 from IDEKO {
   configure task TrainModel {
@@ -65,7 +66,7 @@ experiment EXP {
 
     event E2 {
         type manual;
-        task review_and modify(average, "accuracy", [S1, S2, S3], S4)
+        task review_and_modify(average, "accuracy", [S1, S2, S3], S4);
     }
 
     space S1 of AW1 {
@@ -126,6 +127,3 @@ experiment EXP {
     }
 
 }
-
-
-
