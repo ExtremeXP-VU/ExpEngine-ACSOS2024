@@ -90,8 +90,8 @@ To test the extension, create a new file with the `.exp` extension and write som
 
 ## Overview and Purpose
 
-With the exponential growth of data analytics workflows, optimizing these processes has become increasingly important. Current AutoML tools provide some automation, but there's a need for a more nuanced approach that incorporates various user aspects, such as the expertise of domain experts and data scientists, into the optimization process.
+[//]: # (With the exponential growth of data analytics workflows, optimizing these processes has become increasingly important. Current AutoML tools provide some automation, but there's a need for a more nuanced approach that incorporates various user aspects, such as the expertise of domain experts and data scientists, into the optimization process.)
 
-To address this need, we introduce a comprehensive tool framework consisting of an Experimentation Engine and a Domain-Specific Language (DSL). This framework allows users not only to define what needs to be optimized but also to specify how the optimization should occur. Users can detail the specific steps involved and the desired level of their involvement, enabling a more tailored and effective optimization process.
+[//]: # (To address this need, we introduce a comprehensive tool framework consisting of an Experimentation Engine and a Domain-Specific Language &#40;DSL&#41;. This framework allows users not only to define what needs to be optimized but also to specify how the optimization should occur. Users can detail the specific steps involved and the desired level of their involvement, enabling a more tailored and effective optimization process.)
 
 By following these instructions, you should be able to set up and run the EXP Language Server and VS Code extension on Windows, Linux, and macOS. If you encounter any issues, please refer to the respective documentation for Maven, Java, and Node.js, or seek assistance from the community.
