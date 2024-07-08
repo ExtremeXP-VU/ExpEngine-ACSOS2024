@@ -1,0 +1,185 @@
+Root:
+        component*=Component
+;
+
+Component:  Workflow | AssembledWorkflow | Experiment;
+
+Workflow:
+    'workflow' name=ID '{'
+        elements*=Element
+    '}'
+;
+
+// Note: StartAndEndEvent has to be come BEFORE StartEvent in the next line
+Element: Node | DefineData | ConfigureTask | ConfigureData |  StartAndEndEvent | StartEvent | EndEvent | TaskLink | ConditionLink | DataLink | GroupTask | Comment;
+
+Node:
+    DefineTask | Operator
+;
+
+StartAndEndEvent:
+    'START'
+    '->'
+    (nodes=[Node] '->')+
+    'END'
+    ';'
+;
+
+StartEvent:
+    'START'
+    ('->' nodes+=[Node])+
+    ';'
+;
+
+EndEvent:
+    (nodes=[Node] '->')+
+    'END'
+    ';'
+;
+
+TaskLink:
+    initial_node=[Node]
+    ('->' nodes+=[Node])+
+    ';'
+;
+
+ConfigureTask:
+    'configure task' alias=[DefineTask] '{'
+        ('param' parameters=ID ('=' values=INT | STRING | FLOAT | BOOL | "null")* ';')*
+        ('implementation' workflow=[Workflow]';' | 'implementation' filename=STRING';')?
+        ('dependency' dependency=STRING';')?
+        (subtasks=ConfigureTask)*
+    '}';
+
+DefineTask: 'define task' name=ID ';';
+
+ConfigureData:
+    'configure data' alias=[DefineData] '{'
+        'path' path=STRING';'
+    '}';
+
+Operator: 'define operator' name=ID ';';
+
+DefineData: 'define data' name=ID '[''data=' data*=[Value][','] '];'  | 'define data' name=ID ';' ;
+
+Value: STRING | INT | FLOAT | BOOL | "null";
+
+DataLink:
+    initial=[Node] ('-->' rest=[Data])* ';' |
+    initial=[Data] ('-->' rest=[Node])* ';'
+;
+
+
+ConditionLink: from_node=[Node] '->' condition=STRING '?' if_node=[Node]  ':' else_node=[Node] '->' continuation_Node=[Node] ';';
+
+GroupTask:  'group' name=ID '{' node+=[Node]* '};' ;
+
+AssembledWorkflow:
+    'workflow' name=ID 'from' parent_workflow=[Workflow] '{'
+        (tasks=ConfigureTask)*
+    '}';
+
+
+
+Experiment:
+    'experiment' name=ID '{'
+        (intent='intent' intent_name=ID ';')*
+        (control=Control)*
+        experimentNode*=ExperimentNode
+    '}';
+
+ExperimentNode: SpaceConfig | Event;
+
+Event:
+        'event' name=ID '{'
+            'type' eventType=EventType ';'
+             (event_task=EventTask)*
+        '}';
+
+EventType: 'automated' | 'manual';
+
+EventTask:
+    'task' task=checkTask ';' | 'task' task=reviewTask ';'
+;
+
+checkTask:
+    name='check' '(' calculation=Calculation ',' metric=STRING ',' threshold=STRING ',' nextspace=[SpaceConfig] ')'
+;
+
+reviewTask:
+       name='review_and_modify' '(' calculation=Calculation ',' metric=STRING ','  nextspace+=[SpaceConfig] (',' nextspace+=[SpaceConfig])* ')'
+;
+
+Calculation: 'average' | 'sum' | 'max' | 'min';
+
+SpaceConfig:
+    'space' name=ID 'of' assembled_workflow=[AssembledWorkflow] '{'
+        'strategy' strategy_name=Strategy ';'
+        (vps=VP)*
+        ('runs' '=' runs=INT ';')?
+        (tasks=ESpaceTaskConfiguration)*
+    '}';
+
+Strategy: 'gridsearch' |  'randomsearch';
+
+
+VP:
+    'param' vp_name=ID '=' vp_values=VP_value
+;
+
+VP_value: ENUM | RANGE;
+
+ENUM:
+    'enum(' values+=INT [','] ')' ';' |
+    'enum(' values+=STRING [','] ')' ';'
+;
+
+RANGE:
+    'range(' minimum=INT ',' maximum=INT ')' ';' |
+    'range(' minimum=INT ',' maximum=INT',' step=INT ');'
+
+;
+
+
+ESpaceTaskConfiguration:
+    'configure task' task=[DefineTask] '{'
+         (config=ParameterConfiguration)*
+    '}';
+
+
+ParameterConfiguration: 'param' param_name=ID '=' vp=ID ';';
+
+Control:
+        'control' '{'
+               explink*=ExpLink
+        '}';
+
+ExpLink:  RegularExpLink | ConditionalExpLink;
+
+RegularExpLink:
+    initial_space='START' '->' start=[ExperimentNode] ';' |'START' '->' start=[ExperimentNode]  '->' 'END' ';' |
+
+    initial_space=[ExperimentNode]
+    '->'
+    (spaces=[ExperimentNode])+
+    ';' |
+
+    initial_space=[ExperimentNode]
+    '->'
+    (spaces=[ExperimentNode] '->')+
+    'END'
+    ';'
+;
+
+
+ConditionalExpLink:
+    fromspace=[ExperimentNode] '?->' tospace=[ExperimentNode] '{' 'condition' condition=STRING '}' ';'
+;
+
+Comment: /\/\/.*$/;
+
+
+
+
+
+

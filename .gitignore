@@ -1,1 +1,8 @@
 /.metadata/
+credentials.py
+.idea
+env
+__pycache__
+datasets/ideko-full-dataset
+exp-engine/datasets/full-dataset
+exp-engine/datasets/subset
