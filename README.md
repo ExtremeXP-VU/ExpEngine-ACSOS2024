@@ -5,13 +5,6 @@
 Watch the preliminary demo of ExpEngine [here](https://drive.google.com/drive/folders/1en-NpZwTMGX3I3DODXKMMvsOAB_7CmsH?usp=sharing).
 
 
-[//]: # (## Introduction)
-
-[//]: # (Our approach involves a tool framework consisting of an Experimentation Engine and a Domain-Specific Language &#40;DSL&#41; for optimizing workflows. This framework is part of a larger set of tools developed within the ExtremeXP EU project.)
-
-[//]: # ()
-[//]: # (As a first step, a data scientist creates an experiment specification using our DSL editor. The Engine parses the specification and generates a number of deployed workflows according to the experimentation strategy and the variability points – both part of the specification. The Engine then submits the deployed workflows for execution. At different stages of a running experiment, the data scientist can interact with it to pause/stop it, change the order or the configurations of scheduled workflow executions, etc. In the end, an experiment yields an optimal workflow, together with all the produced metrics and outputs of the experiment.)
-
 ## Getting Started with ExpEngine
 
 ### Setting up the ExpEngine
