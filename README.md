@@ -4,8 +4,32 @@
 
 Watch the preliminary demo of ExpEngine [here](https://drive.google.com/drive/folders/1en-NpZwTMGX3I3DODXKMMvsOAB_7CmsH?usp=sharing).
 
+## Introduction
+
+In the realm of data science and analytics, constructing effective workflows involves navigating through numerous variability points such as different implementations, training algorithms, hyperparameters, and deployment strategies. For data scientists and analysts, the challenge lies in  fine-tuning these workflows to deliver precise and meaningful results that align with user requirements.
+
+To address these complexities, we propose a novel approach centered around user-driven experimentation to optimize data analytics workflows.
+
+## Our Approach
+
+Our approach revolves around a robust tool framework comprising an Experimentation Engine and a Domain-Specific Language (DSL) tailored for workflow optimization. Developed as part of the ExtremeXP EU project, this framework aims to empower data scientists and analysts by streamlining the experimentation process.
+
+### How It Works
+
+. **Experiment Specification:** The process starts with a data scientist using our DSL editor to create an experiment specification. This specification includes the different options and strategies for the experiment.
+   
+2. **Execution and Iteration:** The Experimentation Engine reads the specification and sets up multiple workflows based on the specified options. The data scientist can control the experiment by adjusting settings, pausing, resuming, and changing the workflow order as needed.
+   
+3. **Optimal Workflow Delivery:** At the end of the experiment, the Engine gathers results from all workflows. It identifies the best workflow setup and provides detailed metrics and outputs from the experiment.
+
 
 ## Getting Started with ExpEngine
+In the realm of data science and analytics, constructing effective workflows involves navigating through numerous variability points such as different implementations, training algorithms, hyperparameters, and deployment strategies. For data scientists and analysts, the challenge lies in meticulously fine-tuning these workflows to deliver precise and meaningful results that align with user requirements.
+
+To address these complexities, we propose a novel approach centered around user-driven experimentation to optimize data analytics workflows.
+
+##Our Approach
+Our approach revolves around a robust tool framework comprising an Experimentation Engine and a Domain-Specific Language (DSL) tailored for workflow optimization. Developed as part of the ExtremeXP EU project, this framework aims to empower data scientists by streamlining the experimentation process.
 
 ### Setting up the ExpEngine
 
@@ -40,6 +64,43 @@ Watch the preliminary demo of ExpEngine [here](https://drive.google.com/drive/fo
 6. **Change the proactive credentials in credentials.py:**
    - Update the `credentials.py` file with necessary credentials for proactive usage.
 
+
+## Running ExpEngine
+
+To run ExpEngine, follow these steps:
+
+1. **Use an IDE**
+   - Open your preferred Integrated Development Environment (IDE). This will help you manage your project files and provide a convenient environment for running and debugging your code.
+
+2. **Activate the virtual environment**
+   - Before running ExpEngine, ensure that you activate the virtual environment where all the dependencies are installed. This isolates your project's dependencies and ensures compatibility.
+   - In your terminal, navigate to your project directory and activate the virtual environment. The command may vary based on your operating system and the tool you used to create the virtual environment:
+
+     On Windows:
+     ```sh
+     .\venv\Scripts\activate
+     ```
+
+     On macOS and Linux:
+     ```sh
+     source venv/bin/activate
+     ```
+
+3. **Navigate to the project directory**
+   - Change your directory to the `exp-engine` folder where the main script is located:
+     ```sh
+     cd exp-engine
+     ```
+
+4. **Run the ExpEngine script**
+   - Execute the main script to start the ExpEngine:
+     ```sh
+     python exp_engine.py
+     ```
+     
+
+#### Note:
+The datasets and scripts provided with ExpEngine are proprietary. To use your own datasets and task scripts, please upload these materials into the relevant folders within the project directory. Ensure that your datasets and scripts are formatted and organized correctly to integrate smoothly with the ExpEngine framework.
 
 ### Setting up the DSL Editor
 ### Required Software
@@ -136,4 +197,4 @@ To test the extension, create a new file with the `.exp` extension and write som
 
 [//]: # (To address this need, we introduce a comprehensive tool framework consisting of an Experimentation Engine and a Domain-Specific Language &#40;DSL&#41;. This framework allows users not only to define what needs to be optimized but also to specify how the optimization should occur. Users can detail the specific steps involved and the desired level of their involvement, enabling a more tailored and effective optimization process.)
 
-By following these instructions, you should be able to set up and run the EXP Language Server and VS Code extension on Windows, Linux, and macOS. If you encounter any issues, please refer to the respective documentation for Maven, Java, and Node.js, or seek assistance from the community.
+By following these instructions, you should be able to set up and run the ExpEngine, EXP Language Server and VS Code extension on Windows, Linux, and macOS. If you encounter any issues, please refer to the respective documentation for Maven, Java, and Node.js, or seek assistance from the community.
