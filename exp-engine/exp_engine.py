@@ -2,57 +2,11 @@ from functions import *
 
 print_centered_message(["Welcome to the ExptremeXP ExpEngine"])
 
-# file_path = input("Please provide the path to the DSL file: ")
+file_path = input("Please provide the path to the DSL file: ")
 
-file_path = "../dsl/ideko-with-events-demo.exp"
+# file_path = "../dsl/usecase-with-events-demo.exp"
 workflow_code = read_dsl_file(file_path)
 workflow_model = check_dsl(workflow_code)
-#
-# print_centered_message(["PARSED WORKFLOWS"])
-# parsed_worfklows = get_parsed_workflows(workflow_model)
-#
-# for wf in parsed_worfklows:
-#     wf.print()
-# print_border()
-#
-# print_centered_message(["FULLY DETERMINED WORKFLOWS DATA"])
-# assembled_workflows_data = get_fully_determined_workflow_data(workflow_model)
-#
-# for item in assembled_workflows_data:
-#     print(f"Name: {item['name']}")
-#     print(f"Parent: {item['parent']}")
-#     print("Tasks:")
-#     for task_name, task_details in item['tasks'].items():
-#         print(f"    Task: {task_name}")
-#         for detail_name, detail_value in task_details.items():
-#             print(f"    {detail_name}: {detail_value}")
-#     print()
-#
-#
-# print_centered_message(["GENERATE FULLY DETERMINED WORKFLOWS"])
-# assembled_flat_wfs = []
-#
-# assembled_wfs = generate_final_assembled_workflows(parsed_worfklows, assembled_workflows_data)
-#
-# assembled_flat_wfs = []
-#
-# for wf in assembled_wfs:
-#     flat_wf = flatten_workflows(wf)
-#     assembled_flat_wfs.append(flat_wf)
-#     flat_wf.print()
-#
-# print_border()
-#
-# print_centered_message(["EXPERIMENT SPECIFICATION"])
-# nodes, automated_events, manual_events, spaces, space_configs, automated_dict, manual_dict, parsed_manual_events, parsed_automated_events = get_exp_specification(
-#     workflow_model)
-# print_border()
-#
-#
-# print_centered_message(["RUNNING EXPERIMENTS"])
-# run_experiment(nodes,assembled_flat_wfs)
-#
-# print_border()
 
 while True:
     print("1. View parsed workflows")
