@@ -1,5 +1,26 @@
 # Welcome to ExpEngine of the ExtremeXP framework
+1. [Demo Link](#demo-link)
+2. [Introduction](#introduction)
+3. [Our Approach](#our-approach)
+   - [How It Works](#how-it-works)
+4. [Getting Started with ExpEngine](#getting-started-with-expengine)
+   - [Setting up the ExpEngine](#setting-up-the-expengine)
+   - [Running ExpEngine](#running-expengine)
 
+5. [Setting up the DSL Editor](#setting-up-the-dsl-editor)
+   - [Required Software](#required-software)
+   - [EXP Language Server](#exp-language-server)
+     - [Building the Language Server](#building-the-language-server)
+     - [Running the Language Server](#running-the-language-server)
+   - [VS Code Extension](#vs-code-extension)
+     - [Building the VS Code Extension](#building-the-vs-code-extension)
+     - [Running the VS Code Extension](#running-the-vs-code-extension)
+     - [Testing the VS Code Extension](#testing-the-vs-code-extension)
+   - [Platform-Specific Instructions](#platform-specific-instructions)
+     - [Windows](#windows)
+     - [Linux](#linux)
+     - [macOS](#macos)
+7. [Overview and Purpose](#overview-and-purpose)
 ## Demo Link 
 
 Watch the preliminary demo of ExpEngine [here](https://drive.google.com/drive/folders/1en-NpZwTMGX3I3DODXKMMvsOAB_7CmsH?usp=sharing).
