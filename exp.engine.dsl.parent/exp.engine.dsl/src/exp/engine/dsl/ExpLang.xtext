@@ -107,7 +107,7 @@ AssembledWorkflow:
 // Experiment:
 Experiment:
     'experiment' name=ID '{'
-        'intent' intent=ID ';' 
+        ('intent' intent=ID ';')?
         control=Control
        	events += Event* 
        	spaces += Space*
