@@ -291,7 +291,7 @@ def get_exp_specification(workflow_model):
                     print()
                     print(f"    Space: {node.name}")
                     print(f"    Assembled Workflow: {node.assembled_workflow.name}")
-                    print(f"    Vairbality : {node.strategy_name}")
+                    print(f"    Strategy : {node.strategy_name}")
 
                     spaces.add(node.name)
 
@@ -353,7 +353,7 @@ def get_exp_specification(workflow_model):
             nodes = automated_events | manual_events | spaces
 
             if component.control:
-                print("Control exists")
+                print("\nControl exists")
                 print_divider()
                 print("Automated Events")
                 for control in component.control:
@@ -402,20 +402,6 @@ def get_exp_specification(workflow_model):
 
                                 automated_dict[explink.fromspace.name][explink.condition] = explink.tospace.name
 
-                        # if explink.initial_space.name in automated_events or any(space.name in automated_events for space in explink.spaces):
-                        #     for event in automated_events:
-                        #         if event in explink.initial_space.name or any(event in space.name for space in explink.spaces):
-                        #             print()
-                        #             print(f"Event: {event}")
-                        #             link = f"  Regular Link: {explink.initial_space.name}"
-                        #             for space in explink.spaces:
-                        #                 link += f" -> {space.name}"
-                        #             print(link)
-                        #
-                        #             automated_queue.append(explink.initial_space.name)
-                        #             for space in explink.spaces:
-                        #                 automated_queue.append(space.name)
-
                 print_divider()
                 print("Manual Events")
                 for control in component.control:
@@ -431,7 +417,7 @@ def get_exp_specification(workflow_model):
                                     for event in manual_events:
                                         if event in initial_space_name or any(
                                                 event in space.name for space in explink.spaces):
-                                            print(f"Event: {event}")
+
                                             link = f"  Regular Link: {initial_space_name}"
                                             for space in explink.spaces:
                                                 link += f" -> {space.name}"
@@ -457,7 +443,6 @@ def get_exp_specification(workflow_model):
                                     manual_dict[explink.fromspace.name] = {}
 
                                 manual_dict[explink.fromspace.name][explink.condition] = explink.tospace.name
-                print_divider()
 
 
     return nodes,automated_events,manual_events,spaces,space_configs,automated_dict,manual_dict,parsed_manual_events,parsed_automated_events
@@ -587,12 +572,12 @@ def run_grid_search(space_config,flat_wf):
              print(f'{BOLD}{GREEN}Run {run_count}{RESET}')
              workflow_to_run = get_workflow_to_run(space_config, c, flat_wf)
              print_divider()
-             result = execute_wf(workflow_to_run)
-             workflow_results = {}
-             workflow_results["configuration"] = c
-             workflow_results["result"] = result
-             space_results[run_count] = workflow_results
-             print_divider()
+             # result = execute_wf(workflow_to_run)
+             # workflow_results = {}
+             # workflow_results["configuration"] = c
+             # workflow_results["result"] = result
+             # space_results[run_count] = workflow_results
+             # print_divider()
              run_count += 1
 
      elif user_input == 'n':
@@ -663,128 +648,17 @@ def  run_random_search(space_config, flat_wf):
         sys.exit()
 
 def plot_graph(results):
-#     results = {
-#     'S1': {
-#         1: {
-#             'configuration': (
-#                 ('epochs_vp', 50),
-#                 ('batch_size_vp', 32),
-#                 ('learning_rate', 0.001)
-#             ),
-#             'result': {
-#                 'loss': 0.10,
-#                 'accuracy': 0.95,
-#                 'recall': 0.92
-#             }
-#         },
-#         2: {
-#             'configuration': (
-#                 ('epochs_vp', 60),
-#                 ('batch_size_vp', 64),
-#                 ('learning_rate', 0.0005)
-#             ),
-#             'result': {
-#                 'loss': 0.08,
-#                 'accuracy': 0.96,
-#                 'recall': 0.93
-#             }
-#         }
-#     },
-#     'S2': {
-#         1: {
-#             'configuration': (
-#                 ('epochs_vp', 30),
-#                 ('batch_size_vp', 64),
-#                 ('learning_rate', 0.001)
-#             ),
-#             'result': {
-#                 'loss': 0.20,
-#                 'accuracy': 0.92,
-#                 'recall': 0.88
-#             }
-#         },
-#         2: {
-#             'configuration': (
-#                 ('epochs_vp', 40),
-#                 ('batch_size_vp', 128),
-#                 ('learning_rate', 0.0005)
-#             ),
-#             'result': {
-#                 'loss': 0.18,
-#                 'accuracy': 0.93,
-#                 'recall': 0.89
-#             }
-#         }
-#     },
-#     'S3': {
-#         1: {
-#             'configuration': (
-#                 ('epochs_vp', 35),
-#                 ('batch_size_vp', 64),
-#                 ('learning_rate', 0.001)
-#             ),
-#             'result': {
-#                 'loss': 0.15,
-#                 'accuracy': 0.94,
-#                 'recall': 0.90
-#             }
-#         },
-#         2: {
-#             'configuration': (
-#                 ('epochs_vp', 40),
-#                 ('batch_size_vp', 128),
-#                 ('learning_rate', 0.0005)
-#             ),
-#             'result': {
-#                 'loss': 0.18,
-#                 'accuracy': 0.95,
-#                 'recall': 0.91
-#             }
-#             }
-#
-#     },
-#     'S4': {
-#         1: {
-#             'configuration': (
-#                 ('epochs_vp', 45),
-#                 ('batch_size_vp', 32),
-#                 ('learning_rate', 0.0015)
-#             ),
-#             'result': {
-#                 'loss': 0.25,
-#                 'accuracy': 0.90,
-#                 'recall': 0.85
-#             }
-#         },
-#         2: {
-#             'configuration': (
-#                 ('epochs_vp', 30),
-#                 ('batch_size_vp', 128),
-#                 ('learning_rate', 0.0008)
-#             ),
-#             'result': {
-#                 'loss': 0.22,
-#                 'accuracy': 0.91,
-#                 'recall': 0.87
-#             }
-#         },
-#         3: {
-#             'configuration': (
-#                 ('epochs_vp', 50),
-#                 ('batch_size_vp', 64),
-#                 ('learning_rate', 0.001)
-#             ),
-#             'result': {
-#                 'loss': 0.19,
-#                 'accuracy': 0.93,
-#                 'recall': 0.88
-#             }
-#         }
-#     }
-# }
+    for s_key, s_value in results.items():
+        print(f"Results for {s_key}:")
+        for run_number, run_data in s_value.items():
+            config = ", ".join(f"{key}: {value}" for key, value in run_data['configuration'])
+            print(f"  Run {run_number}:")
+            print(f"    Configuration: {config}")
+            print(f"    Result: {run_data['result']}")
+        print()
 
     # Extract and plot data for all scenarios
-    fig, ax1 = plt.subplots()
+    fig, ax1 = plt.subplots(figsize=(12, 8))
 
     for scenario, runs in results.items():
         configurations = []
