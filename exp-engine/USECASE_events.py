@@ -70,7 +70,7 @@ def change_and_restart(control_dict, space_configs,event_name):
     # print(vps)
     for vp in vps:
         if vp['type'] =="range":
-            print(vp['name'], "=" , vp['type'],"[", vp['min'], ',' , vp['max'], ',' , vp['step'],']')
+            print(vp['name'], "=" , vp['type'],"[", vp['minimum'], ',' , vp['maximum'], ',' , vp['step'],']')
 
         elif vp['type'] == 'enum':
              print(vp['name'], "=" , vp['type'],vp['values'])
@@ -110,7 +110,15 @@ def update_config(config):
                 vp.pop('max', None)
                 vp.pop('step', None)
 
-    print("Updated configuration:")
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(config)
+    print("\nAssembled Workflow:", config['assembled_workflow'])
+    print("Name:", config['name'])
+    print("Strategy:", config['strategy'])
+    print("Runs:", config['runs'])
+    for task_name, task_params in config['tasks'].items():
+        print(f"Task: {task_name}")
 
+    for vp in config['VPs']:
+        if vp['type'] == 'range':
+            print(f"{vp['name']} = {vp['type']}({vp['minimum']}, {vp['maximum']}, {vp['step']})")
+        elif vp['type'] == 'enum':
+            print(f"  {vp['name']} = {vp['values']}")
