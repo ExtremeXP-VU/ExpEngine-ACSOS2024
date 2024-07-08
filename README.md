@@ -1,14 +1,63 @@
-# ExpEngine-ACSOS2024
+# Welcome to ExpEngine of the ExtremeXP framework
 
-## Required Software
+## Demo Link 
+
+Watch the preliminary demo of ExpEngine [here](https://drive.google.com/drive/folders/1en-NpZwTMGX3I3DODXKMMvsOAB_7CmsH?usp=sharing).
+
+
+[//]: # (## Introduction)
+
+[//]: # (Our approach involves a tool framework consisting of an Experimentation Engine and a Domain-Specific Language &#40;DSL&#41; for optimizing workflows. This framework is part of a larger set of tools developed within the ExtremeXP EU project.)
+
+[//]: # ()
+[//]: # (As a first step, a data scientist creates an experiment specification using our DSL editor. The Engine parses the specification and generates a number of deployed workflows according to the experimentation strategy and the variability points – both part of the specification. The Engine then submits the deployed workflows for execution. At different stages of a running experiment, the data scientist can interact with it to pause/stop it, change the order or the configurations of scheduled workflow executions, etc. In the end, an experiment yields an optimal workflow, together with all the produced metrics and outputs of the experiment.)
+
+## Getting Started with ExpEngine
+
+### Setting up the ExpEngine
+
+1. **Install Python:**
+   - Ensure Python is installed on your system. Recommended version: Python 3.x.
+
+2. **Create a virtual environment:**
+   - Set up a Python virtual environment for the ExpEngine to manage dependencies.
+     ```bash
+     python -m venv env
+     source env/bin/activate  # On Windows use `env\Scripts\activate`
+     ```
+
+3. **Install textx:**
+   - Install the textx library for DSL parsing.
+     ```bash
+     pip install textx
+     ```
+
+4. **Install matplotlib:**
+   - Install matplotlib for generating plots (optional but recommended).
+     ```bash
+     pip install matplotlib
+     ```
+
+5. **Install proactive:**
+   - Install proactive if it's a required dependency.
+     ```bash
+     pip install proactive
+     ```
+
+6. **Change the proactive credentials in credentials.py:**
+   - Update the `credentials.py` file with necessary credentials for proactive usage.
+
+
+### Setting up the DSL Editor
+### Required Software
 
 - [Maven](https://maven.apache.org/)
 - [Java](https://www.java.com/en/download/)
 - [Node.js](https://nodejs.org/)
 
-## EXP Language Server
+### EXP Language Server
 
-### Building the Language Server
+#### Building the Language Server
 
 First, you need to create the DSL artifact using Maven. Open your terminal or command prompt and navigate to the `exp.engine.dsl.parent` directory. Then, run the following command:
 
@@ -24,7 +73,7 @@ cd exp.engine.dsl.parent/exp.engine.dsl.ide
 mvn install -Plang-server
 ```
 
-### Running the Language Server
+####  Running the Language Server
 
 After building the language server, navigate to the `target` directory and run the server using the following command:
 
@@ -39,11 +88,11 @@ You should see the following message indicating that the language server is runn
 Welcome to Experiment LSP version 4.0 - Resolved
 ```
 
-## VS Code Extension
+### VS Code Extension
 
 The EXP Language Server can be integrated with VS Code to support `.exp` files.
 
-### Building the VS Code Extension
+####  Building the VS Code Extension
 
 First, install the necessary packages by navigating to the `vs-code-ext` directory and running `npm install`:
 
@@ -52,7 +101,7 @@ cd vs-code-ext
 npm install
 ```
 
-### Running the VS Code Extension
+#### Running the VS Code Extension
 
 After installing the packages, build the extension. The generated files will be in the `src/out` directory. Open the `extension.js` script in VS Code:
 
@@ -64,25 +113,25 @@ Press `F5` to run the extension. This will open a new VS Code window with the ex
 
 **Note:** Make sure the [language server](#exp-language-server) is running in a separate process.
 
-### Testing the VS Code Extension
+####  Testing the VS Code Extension
 
 To test the extension, create a new file with the `.exp` extension and write some DSL code. The VS Code extension should provide syntax highlighting, code completion, and other language features for the EXP DSL.
 
-## Platform-Specific Instructions
+### Platform-Specific Instructions
 
-### Windows
+####  Windows
 
 1. Open Command Prompt or PowerShell.
 2. Follow the [Building the Language Server](#building-the-language-server) and [Running the Language Server](#running-the-language-server) steps.
 3. For the VS Code extension, open a new Command Prompt or PowerShell window and follow the [Building the VS Code Extension](#building-the-vs-code-extension) and [Running the VS Code Extension](#running-the-vs-code-extension) steps.
 
-### Linux
+####  Linux
 
 1. Open a terminal.
 2. Follow the [Building the Language Server](#building-the-language-server) and [Running the Language Server](#running-the-language-server) steps.
 3. For the VS Code extension, open a new terminal window and follow the [Building the VS Code Extension](#building-the-vs-code-extension) and [Running the VS Code Extension](#running-the-vs-code-extension) steps.
 
-### macOS
+####  macOS
 
 1. Open a terminal.
 2. Follow the [Building the Language Server](#building-the-language-server) and [Running the Language Server](#running-the-language-server) steps.
