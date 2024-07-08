@@ -121,11 +121,11 @@ def submit_job_and_retrieve_results_and_outputs(gateway, job):
     # task_result = gateway.getTaskResult(job_id, "TrainModel", 300000)
     # print(task_result)
 
-    print("Getting job result map...")
+    # print("Getting job result map...")
     result_map = dict(gateway.waitForJob(job_id, 600000).getResultMap())
-    print("Results:")
-    for key, value in result_map.items():
-        print(f"    {key.capitalize()}: {value}")
+    # print("Results:")
+    # for key, value in result_map.items():
+    #     print(f"    {key.capitalize()}: {value}")
 
     # print("Getting job outputs...")
     job_outputs = gateway.printJobOutput(job_id, 600000)
