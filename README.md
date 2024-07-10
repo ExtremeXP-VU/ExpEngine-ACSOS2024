@@ -23,7 +23,7 @@
 7. [Overview and Purpose](#overview-and-purpose)
 ## Demo Link 
 
-Watch the preliminary demo of ExpEngine [here](https://drive.google.com/drive/folders/1en-NpZwTMGX3I3DODXKMMvsOAB_7CmsH?usp=sharing).
+Watch the preliminary demo of ExpEngine [here](https://drive.google.com/file/d/17iwzGjI2TpXRWv63z0l3A3gXPs7_lhgQ/view?usp=sharing).
 
 ## Introduction
 
