@@ -35,9 +35,11 @@ To address these complexities, we propose a novel approach centered around user-
 
 Our approach revolves around a robust tool framework comprising an Experimentation Engine and a Domain-Specific Language (DSL) tailored for workflow optimization. Developed as part of the ExtremeXP EU project, this framework aims to empower data scientists and analysts by streamlining the experimentation process.
 
+To address these complexities, we propose a novel approach centered around user-driven experimentation to optimize data analytics workflows.
+
 ### How It Works
 
-. **Experiment Specification:** The process starts with a data scientist using our DSL editor to create an experiment specification. This specification includes the different options and strategies for the experiment.
+1. **Experiment Specification:** The process starts with a data scientist using our DSL editor to create an experiment specification. This specification includes the different options and strategies for the experiment.
    
 2. **Execution and Iteration:** The Experimentation Engine reads the specification and sets up multiple workflows based on the specified options. The data scientist can control the experiment by adjusting settings, pausing, resuming, and changing the workflow order as needed.
    
@@ -46,11 +48,6 @@ Our approach revolves around a robust tool framework comprising an Experimentati
 
 ## Getting Started with ExpEngine
 In the realm of data science and analytics, constructing effective workflows involves navigating through numerous variability points such as different implementations, training algorithms, hyperparameters, and deployment strategies. For data scientists and analysts, the challenge lies in meticulously fine-tuning these workflows to deliver precise and meaningful results that align with user requirements.
-
-To address these complexities, we propose a novel approach centered around user-driven experimentation to optimize data analytics workflows.
-
-##Our Approach
-Our approach revolves around a robust tool framework comprising an Experimentation Engine and a Domain-Specific Language (DSL) tailored for workflow optimization. Developed as part of the ExtremeXP EU project, this framework aims to empower data scientists by streamlining the experimentation process.
 
 ### Setting up the ExpEngine
 
