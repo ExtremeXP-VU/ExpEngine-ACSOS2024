@@ -1,4 +1,5 @@
 # Welcome to ExpEngine of the ExtremeXP framework
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13149489.svg)](https://doi.org/10.5281/zenodo.13149489)
 1. [Demo Link](#demo-link)
 2. [Introduction](#introduction)
 3. [Our Approach](#our-approach)
